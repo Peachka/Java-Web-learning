@@ -3,8 +3,21 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.*;
 
-public class Change {
-    public static void changefile(String args) {
+public class Change implements Runnable{
+
+    private final String args;
+
+    public Change(String args){
+        this.args = args;
+    }
+
+    public void changefile () {
+
+        //System.out.printf("  %s thread started with file %s\n", Thread.currentThread().getName(), args);
+        File file = new File(args);
+        file.renameTo(new File(args, file.getName().replace(".java", ".txt")));
+
+
         BufferedReader buffreader;
         BufferedWriter buffwrite;
         try {
@@ -29,5 +42,16 @@ public class Change {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        file.renameTo(new File(args, file.getName().replace(".txt", ".java")));
+
+        //System.out.printf("  %s thread ended with file %s\n", Thread.currentThread().getName(), args);
+        System.out.printf("  %s thread ended with file %s\n", Thread.currentThread().getName(), new File(args).getName());
+    }
+
+
+    @Override
+    public void run() {
+        changefile();
     }
 }
+

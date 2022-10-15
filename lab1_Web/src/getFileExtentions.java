@@ -1,4 +1,3 @@
-import java.io.File;
 
 public class getFileExtentions {
     public static String getFileEx(String fileName) {
